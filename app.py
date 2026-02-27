@@ -9,10 +9,7 @@ st.markdown("""
         <h1 class="hero-title">POLLYTICS</h1>
         <p class="hero-subtitle">Kerala Election Analysis Portal</p>
         <p class="hero-malayalam">കേരള തിരഞ്ഞെടുപ്പ് വിശകലന പോർട്ടൽ</p>
-        <p class="hero-description" style="text-align: center;">
-            Explore constituency-wise data, booth statistics, candidate performance, and more.
-        </p>
-    </div>
+
 </div>
 """, unsafe_allow_html=True)
 
