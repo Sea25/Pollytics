@@ -1,42 +1,100 @@
 import streamlit as st
 import pandas as pd
 from pathlib import Path
+import base64
 
-# Get the base directory (where utils.py is located)
 BASE_DIR = Path(__file__).parent
 
+def get_logo_base64():
+    """Get logo as base64 string for embedding in HTML."""
+    logo_path = BASE_DIR / "assets" / "ECK_LOGO.jpg"
+    try:
+        with open(logo_path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except Exception:
+        return None
+
 def setup_page(page_title="Pollytics"):
-    """Sets up the standard page layout, title, logo, and custom CSS."""
-    st.set_page_config(page_title=page_title, layout="wide")
+    """Sets up the standard page layout with fixed header and logo."""
+    st.set_page_config(
+        page_title=page_title, 
+        layout="wide",
+        initial_sidebar_state="collapsed"
+    )
     
-    # Load custom CSS
     css_path = BASE_DIR / "assets" / "style.css"
     try:
         with open(css_path, encoding="utf-8") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     except Exception as e:
         st.warning(f"Failed to load custom CSS: {e}")
-
-    # Create columns for logo and title
-    col1, col2, col3 = st.columns([1, 10, 1])
-
-    with col1:
-        # Display logo using st.image
-        logo_path = BASE_DIR / "assets" / "ECK_LOGO.jpg"
-        try:
-            st.image(str(logo_path), width=70)
-        except Exception:
-            st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Election_Commission_of_India_logo.png/120px-Election_Commission_of_India_logo.png", width=70)
-
-    with col2:
-        # Title in the middle
-        st.markdown("""
-        <div class="kerala-header" style="margin-top: -20px;">
-            <h1>🗳️ POLLYTICS</h1>
-            <p>KERALA ELECTION ANALYSIS PORTAL</p>
-            <div class="malayalam">കേരള തിരഞ്ഞെടുപ്പ് വിശകലന കേന്ദ്രം</div>
+    
+    logo_b64 = get_logo_base64()
+    
+    if logo_b64:
+        logo_html = f'<img src="data:image/jpeg;base64,{logo_b64}" alt="Pollytics Logo" style="width: 42px; height: 42px; object-fit: contain;">'
+    else:
+        logo_html = '''<svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#234d3c"/>
+            <path d="M25 70V30h15v40H25zm17.5-25V30H60v15H42.5zm0 25V55H60v15H42.5zM62.5 70V30H75v40H62.5z" fill="#d4a03c"/>
+        </svg>'''
+    
+    st.markdown(f'''
+    <div class="site-header">
+        <div class="logo-container">
+            {logo_html}
         </div>
-        """, unsafe_allow_html=True)
+        <div class="brand">
+            <div class="brand-name">POLLYTICS</div>
+            <div class="brand-tagline">Kerala Election Analysis Portal</div>
+        </div>
+    </div>
+    <div class="header-spacer"></div>
+    ''', unsafe_allow_html=True)
+
+def render_page_header(title, subtitle=None, icon=None):
+    """Render a consistent page header."""
+    icon_html = f'<span style="font-size: 1.5rem;">{icon}</span>' if icon else ''
+    subtitle_html = f'<p class="page-subtitle">{subtitle}</p>' if subtitle else ''
+    
+    st.markdown(f'''
+    <div style="margin-bottom: 1.5rem;">
+        <h1 class="page-title">{icon_html} {title}</h1>
+        {subtitle_html}
+    </div>
+    ''', unsafe_allow_html=True)
+
+def render_breadcrumb(items):
+    """Render a breadcrumb navigation."""
+    breadcrumb_items = []
+    for i, item in enumerate(items):
+        if i == len(items) - 1:
+            breadcrumb_items.append(f'<span class="current">{item}</span>')
+        else:
+            breadcrumb_items.append(f'<span>{item}</span>')
+    
+    st.markdown(f'''
+    <div class="breadcrumb">
+        {' <span class="separator">→</span> '.join(breadcrumb_items)}
+    </div>
+    ''', unsafe_allow_html=True)
+
+def render_filter_section(title=None):
+    """Start a filter section container."""
+    title_html = f'<div class="filter-section-title">{title}</div>' if title else ''
+    return f'''
+    <div class="filter-section">
+        {title_html}
+    '''
+
+def render_footer():
+    """Render the site footer."""
+    st.markdown('''
+    <div class="site-footer">
+        <p><span class="highlight">POLLYTICS</span> - Kerala Election Analysis Portal</p>
+        <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 0.5rem;">© 2025 Pollytics. Data sourced from Election Commission of Kerala.</p>
+    </div>
+    ''', unsafe_allow_html=True)
 
 @st.cache_data
 def load_data():
@@ -53,16 +111,14 @@ def load_data():
 @st.cache_data
 def create_booth_data():
     """Create sample data with all 14 districts of Kerala and 10 booths each."""
-    # All 14 districts of Kerala
     districts = [
         'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
         'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram',
         'Kozhikode', 'Wayanad', 'Kannur', 'Kasaragod'
     ]
     
-    # Major constituencies in each district
     constituencies = {
-        'Thiruvananthapuram': ['Vattiyoorkavu', 'Nemom', 'Kazhakoottom', 'Kovalam', 'Parassala'],
+        'Thiruvananthapuram': ['Vattiyoorkavu', 'Nemom', 'Kazhakoottam', 'Kovalam', 'Parassala'],
         'Kollam': ['Kollam', 'Kundara', 'Chavara', 'Punalur', 'Karunagappally'],
         'Pathanamthitta': ['Pathanamthitta', 'Ranni', 'Aranmula', 'Konni', 'Adoor'],
         'Alappuzha': ['Alappuzha', 'Cherthala', 'Ambalappuzha', 'Haripad', 'Kayamkulam'],
@@ -79,24 +135,12 @@ def create_booth_data():
     }
     
     data = {
-        'year': [],
-        'district': [],
-        'constituency': [],
-        'booth_id': [],
-        'booth_name': [],
-        'total_voters': [],
-        'votes_polled': [],
-        'candidate': [],
-        'party': [],
-        'votes': [],
-        'winner': [],
-        'margin': [],
-        'previous_error': [],
-        'postal_votes': [],
-        'tendered_votes': []
+        'year': [], 'district': [], 'constituency': [], 'booth_id': [],
+        'booth_name': [], 'total_voters': [], 'votes_polled': [],
+        'candidate': [], 'party': [], 'votes': [], 'winner': [],
+        'margin': [], 'previous_error': [], 'postal_votes': [], 'tendered_votes': []
     }
     
-    # Generate data for each district, constituency, and booth
     booth_counter = 1
     parties = ['CPI', 'INC', 'BJP', 'CPIM', 'IUML', 'KC(M)', 'JD(S)']
     candidates = ['Suresh', 'Rajan', 'Meera', 'Anand', 'Priya', 'Manoj', 'Deepa',
@@ -105,41 +149,35 @@ def create_booth_data():
     for year in [2023, 2024, 2025]:
         for district in districts:
             district_constituencies = constituencies[district]
-            # 10 booths per constituency
             for i in range(10):
                 const_index = i % len(district_constituencies)
                 constituency = district_constituencies[const_index]
                 
-                # Generate booth data
                 total = 1200 + (i * 50) + (hash(f"{district}_{i}") % 300)
                 turnout = 65 + (i * 2) + (hash(constituency) % 15)
                 if turnout > 90:
                     turnout = 90
                 votes_polled = int(total * turnout / 100)
                 
-                # Generate candidate data (3-4 candidates per booth)
                 num_candidates = 3 + (hash(f"cand_{booth_counter}") % 2)
                 remaining_votes = votes_polled
                 
-                # Determine winner (gets ~40-60% of votes)
                 winner_idx = (booth_counter + i) % len(candidates)
                 winner_name = candidates[winner_idx]
                 winner_party = parties[(winner_idx + hash(constituency)) % len(parties)]
                 winner_votes = int(votes_polled * (0.4 + (hash(f"win_{booth_counter}") % 20)/100))
                 
-                # Calculate margin (winner - runner up)
                 runner_up_votes = int((votes_polled - winner_votes) * 0.6)
                 margin = winner_votes - runner_up_votes
                 
                 for j in range(num_candidates):
-                    if j == 0:  # Winner
+                    if j == 0:
                         candidate_name = winner_name
                         party = winner_party
                         vote_count = winner_votes
                         is_winner = 'Yes'
                         booth_margin = margin
                     else:
-                        # Other candidates
                         cand_idx = (winner_idx + j + 1) % len(candidates)
                         candidate_name = candidates[cand_idx]
                         party = parties[(cand_idx + hash(constituency)) % len(parties)]
@@ -153,7 +191,6 @@ def create_booth_data():
                         is_winner = 'No'
                         booth_margin = 0
                     
-                    # Add candidate data
                     data['year'].append(year)
                     data['district'].append(district)
                     data['constituency'].append(constituency)

@@ -1,417 +1,905 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Malayalam:wght@400;500;600;700&display=swap');
 
-/* Reset margins and padding for full width */
-.stApp {
-    font-family: 'Times New Roman', Times, serif;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    margin: 0;
-    padding: 0;
+:root {
+    --primary-dark: #1a3a2f;
+    --primary: #234d3c;
+    --primary-light: #2d6a4f;
+    --accent-gold: #d4a03c;
+    --accent-gold-light: #e8c068;
+    --text-dark: #ffffff;
+    --text-medium: #4b5563;
+    --text-light: #6b7280;
+    --bg-light: #f8fafc; 
+    --bg-card: #ffffff;
+    --border-light: #e5e7eb;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
 }
 
-/* Remove default Streamlit padding */
+/* Base Styles */
+.stApp {
+    font-family: 'Times New Roman', Times, serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+/* Remove default Streamlit padding for full-width header */
 .main > div {
-    padding-left: 0;
-    padding-right: 0;
+    padding-top: 0 !important;
 }
 
 .block-container {
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-    max-width: 100% !important;
+    padding: 1rem 2rem 2rem 2rem !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
 }
 
-/* Kerala Header - FULL WIDTH */
-.kerala-header {
-    background: linear-gradient(165deg, #0B3B2A 0%, #1B6B4A 40%, #2E8B57 100%);
-    padding: 3rem 5rem 4rem 5rem;
-    margin: -1rem -3rem 2rem -3rem;
-    text-align: center;
-    border-bottom: 6px solid #FFB81C;
-    box-shadow: 0 12px 30px rgba(0,60,30,0.3);
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
-    position: relative;
-    z-index: 10;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-}
-
-.kerala-header::before {
-    content: "⚖️";
-    position: absolute;
-    left: 10%;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 4rem;
-    opacity: 0.15;
-    color: #FFB81C;
-}
-
-.kerala-header::after {
-    content: "🗳️";
-    position: absolute;
-    right: 10%;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 4rem;
-    opacity: 0.15;
-    color: #FFB81C;
-}
-
-.kerala-header h1 {
-    color: white;
-    font-size: 5rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: 4px;
-    text-shadow: 4px 4px 0 rgba(0,0,0,0.15);
-    font-family: 'Times New Roman', Times, serif;
-    position: relative;
-    display: inline-block;
-}
-
-.kerala-header h1::after {
-    content: "";
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 4px;
-    background: #FFB81C;
-    border-radius: 2px;
-}
-
-.kerala-header p {
-    color: #FFB81C;
-    font-size: 1.5rem;
-    margin: 1.5rem 0 0.5rem 0;
-    font-weight: 500;
-    letter-spacing: 3px;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.kerala-header .malayalam {
-    font-family: 'Noto Serif Malayalam', 'Times New Roman', serif;
-    color: rgba(255,255,255,0.95);
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    font-weight: 500;
-}
-
-/* Welcome text - full width */
-.welcome-text {
-    text-align: center;
-    padding: 1rem 3rem;
-    margin: 1rem auto 2rem auto;
-    font-size: 1.3rem;
-    color: #4A5568;
-    max-width: 1200px;
-    width: 100%;
-}
-
-/* Feature Grid - FULL WIDTH */
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    padding: 1rem 2rem;
-    max-width: 1600px;
-    margin: 0 auto;
-    width: 100%;
-}
-
-.feature-box {
-    background: white;
-    border-radius: 24px;
-    padding: 3rem 2rem;
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid rgba(224, 224, 224, 0.5);
-    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.2);
-    border-top: 8px solid #0B3B2A;
-    height: 100%;
+/* ========================================
+   FIXED HEADER WITH LOGO
+   ======================================== */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    padding: 0.75rem 2rem;
     display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    font-family: 'Times New Roman', Times, serif;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-lg);
+    border-bottom: 3px solid var(--accent-gold);
 }
 
-.feature-box::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,184,28,0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
+.site-header .logo-container {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: var(--shadow-sm);
 }
 
-.feature-box:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 40px 60px -20px rgba(11,59,42,0.5);
-    border-color: #FFB81C;
+.site-header .logo-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
-.feature-box:hover::before {
-    opacity: 1;
-}
-
-.feature-icon {
-    font-size: 5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-}
-
-.feature-box:hover .feature-icon {
-    transform: scale(1.1) rotate(5deg);
-}
-
-.feature-box h3 {
-    color: #0B3B2A;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 1rem 0 1rem 0;
-    font-family: 'Times New Roman', Times, serif;
-    position: relative;
-    display: inline-block;
-}
-
-.feature-box h3::after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: #FFB81C;
-    transition: width 0.3s ease;
-}
-
-.feature-box:hover h3::after {
-    width: 100px;
-}
-
-.feature-box p {
-    color: #4A5568;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    margin: 1rem 0 0 0;
+.site-header .brand {
     flex-grow: 1;
-    font-family: 'Times New Roman', Times, serif;
 }
 
-/* Buttons - Full width */
-.stButton > button {
-    font-family: 'Times New Roman', Times, serif !important;
-    font-size: 1.1rem !important;
-    border-radius: 50px !important;
-    transition: all 0.3s ease !important;
-    padding: 0.6rem 1.5rem !important;
-    width: 100% !important;
-    margin-top: 0.5rem !important;
-}
-
-/* Year Boxes - Full width */
-.year-box {
-    background: white;
-    border-radius: 24px;
-    padding: 3rem 2rem;
-    text-align: center;
-    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.2);
-    border-top: 8px solid #0B3B2A;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
-    font-family: 'Times New Roman', Times, serif;
-    height: 100%;
-}
-
-.year-box:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 40px 60px -20px rgba(11,59,42,0.5);
-    border-color: #FFB81C;
-}
-
-.year-box h2 {
-    color: #0B3B2A;
-    font-size: 3.5rem;
+.site-header .brand-name {
+    font-size: 1.5rem;
     font-weight: 700;
-    margin: 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.year-box p {
-    color: #4A5568;
-    font-size: 1.2rem;
-    margin: 0.8rem 0 0 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-/* Filter Container - Full width */
-.filter-container {
-    background: white;
-    padding: 3rem;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.2);
-    margin: 2rem 0;
-    border-left: 8px solid #0B3B2A;
-    width: 100%;
-}
-
-/* Winner Card */
-.winner-card {
-    background: linear-gradient(135deg, #0B3B2A 0%, #1B6B4A 100%);
-    padding: 3rem;
-    border-radius: 40px;
     color: white;
-    text-align: center;
-    margin: 2rem 0;
-    border: 5px solid #FFB81C;
-    box-shadow: 0 30px 50px -15px rgba(11,59,42,0.5);
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.winner-card h2 {
-    color: #FFB81C;
-    font-size: 3rem;
-    margin: 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.winner-card .candidate-name {
-    font-size: 4rem;
-    font-weight: 700;
-    margin: 1rem 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.winner-card .party {
-    font-size: 2rem;
-    opacity: 0.95;
-    margin: 0.5rem 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-.winner-card .votes {
-    font-size: 3rem;
-    font-weight: 700;
-    margin: 1.5rem 0 0 0;
-    font-family: 'Times New Roman', Times, serif;
-}
-
-/* Metric Cards - Full width */
-.metric-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
-    border-left: 6px solid #0B3B2A;
-    font-family: 'Times New Roman', Times, serif;
-    height: 100%;
-}
-
-.metric-card .label {
-    color: #666;
-    font-size: 1.1rem;
-    text-transform: uppercase;
     letter-spacing: 1px;
-    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    line-height: 1.2;
 }
 
-.metric-card .value {
-    color: #0B3B2A;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-top: 0.5rem;
-    font-family: 'Times New Roman', Times, serif;
+.site-header .brand-tagline {
+    font-size: 0.75rem;
+    color: var(--accent-gold-light);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    font-weight: 500;
 }
 
-/* Footer - FULL WIDTH */
-.kerala-footer {
-    background: linear-gradient(135deg, #0B3B2A 0%, #1B6B4A 60%, #2E8B57 100%);
-    padding: 2.5rem;
-    margin: 4rem -3rem 0 -3rem;
+.header-spacer {
+    height: 80px;
+}
+
+/* ========================================
+   HERO SECTION (Home Page)
+   ======================================== */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 40%, var(--primary-light) 100%);
+    margin: -1rem -2rem 2rem -2rem;
+    padding: 3rem 2rem 4rem 2rem;
     text-align: center;
-    color: white;
-    border-radius: 40px 40px 0 0;
     position: relative;
     overflow: hidden;
-    font-family: 'Times New Roman', Times, serif;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
 }
 
-.kerala-footer::before {
+.hero-section::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #FFB81C, #FFFFFF, #FFB81C);
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
 }
 
-.kerala-footer p {
-    margin: 0.8rem 0;
-    font-size: 1.1rem;
+.hero-content {
     position: relative;
-    z-index: 2;
-    font-family: 'Times New Roman', Times, serif;
+    z-index: 1;
 }
 
-.kerala-footer .highlight {
-    color: #FFB81C;
+.hero-title {
+    font-size: 2.75rem;
     font-weight: 700;
-    font-size: 1.2rem;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+    color: white;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 1px;
 }
 
-/* Dataframes full width */
-.stDataFrame {
-    width: 100% !important;
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--accent-gold-light);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 0 0 0.75rem 0;
+    font-weight: 500;
 }
 
-/* Columns spacing */
-.row-widget.stButton {
+.hero-malayalam {
+    font-family: 'Noto Serif Malayalam', serif;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.9);
+    margin: 0;
+}
+
+.hero-description {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 600px;
+    margin: 1.5rem auto 0 auto;
+    line-height: 1.6;
+}
+
+/* ========================================
+   FEATURE CARDS (Home Page)
+   ======================================== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent-gold) 100%);
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-light);
+}
+
+.feature-card .icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
+    box-shadow: var(--shadow-md);
 }
 
-/* Responsive design */
+.feature-card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.feature-card p {
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Feature box (used in columns) */
+.feature-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent-gold) 100%);
+}
+
+.feature-box:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-light);
+}
+
+.feature-box .feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin: 0 auto 1rem auto;
+    box-shadow: var(--shadow-md);
+}
+
+.feature-box h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 0.75rem 0;
+    text-align: center;
+}
+
+.feature-box p {
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    line-height: 1.6;
+    margin: 0;
+    text-align: center;
+    flex-grow: 1;
+}
+
+/* ========================================
+   YEAR SELECTION CARDS
+   ======================================== */
+.year-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 2px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.year-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.year-box:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.year-box:hover::before {
+    transform: scaleX(1);
+}
+
+.year-box h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+    line-height: 1;
+}
+
+.year-box p {
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    margin: 0.5rem 0 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   FILTER CONTAINER & DROPDOWNS
+   ======================================== */
+.filter-section {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.filter-container {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin: 1.5rem 0;
+    border: 1px solid var(--border-light);
+}
+
+/* Streamlit selectbox styling */
+.stSelectbox > div > div {
+    background: var(--bg-card) !important;
+    border: 2px solid var(--border-light) !important;
+    border-radius: var(--radius-md) !important;
+    transition: all 0.2s ease !important;
+}
+
+.stSelectbox > div > div:hover {
+    border-color: var(--primary-light) !important;
+}
+
+.stSelectbox > div > div:focus-within {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15) !important;
+}
+
+.stSelectbox label {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: var(--text-dark) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Multi-select styling */
+.stMultiSelect > div > div {
+    background: var(--bg-card) !important;
+    border: 2px solid var(--border-light) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.stMultiSelect > div > div:hover {
+    border-color: var(--primary-light) !important;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+.stButton > button {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.5rem 1.25rem !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+}
+
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.stButton > button[kind="secondary"],
+.stButton > button:not([kind="primary"]) {
+    background: var(--bg-card) !important;
+    color: var(--text-dark) !important;
+    border: 1px solid var(--border-light) !important;
+}
+
+.stButton > button[kind="secondary"]:hover,
+.stButton > button:not([kind="primary"]):hover {
+    background: var(--bg-light) !important;
+    border-color: var(--primary-light) !important;
+    color: var(--primary) !important;
+}
+
+/* ========================================
+   WINNER CARD
+   ======================================== */
+.winner-card {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.winner-card::before {+
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-gold);
+}
+
+.winner-card h2 {
+    color: var(--accent-gold);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 0.75rem 0;
+}
+
+.winner-card .candidate-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    line-height: 1.2;
+}
+
+.winner-card .party {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0.25rem 0;
+}
+
+.winner-card .votes {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1rem 0 0 0;
+    color: var(--accent-gold-light);
+}
+
+/* ========================================
+   METRIC CARDS
+   ======================================== */
+.metric-card {
+    background: var(--bg-card);
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.metric-card .label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.metric-card .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+}
+
+/* Streamlit native metric styling */
+[data-testid="stMetricValue"] {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    color: var(--text-medium) !important;
+}
+
+/* ========================================
+   BREADCRUMB
+   ======================================== */
+.breadcrumb {
+    background: var(--bg-card);
+    padding: 0.75rem 1.25rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    margin: 1rem 0;
+}
+
+.breadcrumb .separator {
+    color: var(--text-light);
+}
+
+.breadcrumb .current {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ========================================
+   DATA TABLES
+   ======================================== */
+.stDataFrame {
+    border-radius: var(--radius-md) !important;
+    overflow: hidden !important;
+}
+
+[data-testid="stDataFrame"] > div {
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--border-light) !important;
+}
+
+/* ========================================
+   TABS
+   ======================================== */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.5rem !important;
+    background: transparent !important;
+    border-bottom: 2px solid var(--border-light) !important;
+    padding-bottom: 0 !important;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0.75rem 1.25rem !important;
+    font-weight: 500 !important;
+    color: var(--text-medium) !important;
+    border-bottom: 2px solid transparent !important;
+    margin-bottom: -2px !important;
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+    color: var(--primary) !important;
+}
+
+.stTabs [aria-selected="true"] {
+    color: var(--primary) !important;
+    border-bottom-color: var(--primary) !important;
+}
+
+/* ========================================
+   EXPANDER
+   ======================================== */
+.streamlit-expanderHeader {
+    font-weight: 500 !important;
+    color: var(--text-dark) !important;
+    background: var(--bg-card) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.section-header h2, .section-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.section-header .icon {
+    font-size: 1.25rem;
+}
+
+/* ========================================
+   PAGE TITLE STYLING
+   ======================================== */
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    margin: 0;
+}
+
+/* ========================================
+   INFO CARDS (for comparison pages)
+   ======================================== */
+.info-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+}
+
+.info-card-highlight {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    border: none;
+}
+
+.info-card-highlight h3,
+.info-card-highlight h4 {
+    color: var(--accent-gold) !important;
+}
+
+/* ========================================
+   CANDIDATE CARDS
+   ======================================== */
+.candidate-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.candidate-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-light);
+}
+
+.candidate-card-winner {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    border: 2px solid var(--accent-gold);
+}
+
+.candidate-card-winner h3 {
+    color: var(--accent-gold) !important;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.site-footer {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    margin: 3rem -2rem -2rem -2rem;
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent-gold);
+}
+
+.site-footer p {
+    margin: 0.5rem 0;
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+.site-footer .highlight {
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+/* ========================================
+   COMPARISON CARD
+   ======================================== */
+.comparison-card {
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin: 0.5rem 0;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+}
+
+.comparison-card .constituency {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.comparison-card .winner {
+    font-size: 0.9rem;
+    color: var(--primary);
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-medium);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
 @media (max-width: 768px) {
-    .feature-grid {
-        grid-template-columns: 1fr;
-        padding: 1rem;
+    .block-container {
+        padding: 1rem !important;
     }
     
-    .kerala-header h1 {
-        font-size: 3rem;
+    .hero-section {
+        padding: 2rem 1rem 3rem 1rem;
+        margin: -1rem -1rem 1.5rem -1rem;
     }
     
-    .kerala-header p {
-        font-size: 1.2rem;
+    .hero-title {
+        font-size: 1.75rem;
     }
     
-    .kerala-header .malayalam {
-        font-size: 1.1rem;
+    .hero-subtitle {
+        font-size: 0.75rem;
+    }
+    
+    .feature-box {
+        padding: 1.25rem;
     }
     
     .year-box h2 {
-        font-size: 2.5rem;
+        font-size: 2rem;
+    }
+    
+    .winner-card {
+        padding: 1.5rem;
     }
     
     .winner-card .candidate-name {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
     }
+    
+    .site-header {
+        padding: 0.5rem 1rem;
+    }
+    
+    .site-header .brand-name {
+        font-size: 1.1rem;
+    }
+    
+    .header-spacer {
+        height: 70px;
+    }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ========================================
+   HIDE STREAMLIT BRANDING
+   ======================================== */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* ========================================
+   PLOTLY CHART STYLING
+   ======================================== */
+.js-plotly-plot .plotly .modebar {
+    top: 5px !important;
+    right: 5px !important;
+}
+
+/* Stats boxes used in pages */
+.stat-box {
+    background: var(--bg-card);
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+}
+
+.stat-box .stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-box .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-box .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0.25rem 0;
+}
+
+.stat-box .stat-sublabel {
+    font-size: 0.8rem;
+    color: var(--text-medium);
 }

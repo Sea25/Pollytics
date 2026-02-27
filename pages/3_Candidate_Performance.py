@@ -1,12 +1,10 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from utils import setup_page, load_data
+from utils import setup_page, load_data, render_page_header, render_breadcrumb, render_footer
 
-# Setup page layout and header
 setup_page("Candidate Performance - Pollytics")
 
-# Back to home button
 col1, col2 = st.columns([1, 5])
 with col1:
     if st.button("← Home", key="cand_back_home", use_container_width=True):
@@ -16,12 +14,10 @@ with col1:
         st.session_state.cand_candidate = None
         st.switch_page("app.py")
 
-st.markdown("## 👥 Candidate Performance")
-st.markdown("##### *Find out how a specific candidate performed in their constituency*")
+render_page_header("Candidate Performance", "Analyze individual candidate performance across constituencies", "👥")
 
 df = load_data()
 
-# Initialize candidate session state
 if 'cand_year' not in st.session_state:
     st.session_state.cand_year = None
 if 'cand_district' not in st.session_state:
@@ -31,192 +27,162 @@ if 'cand_constituency' not in st.session_state:
 if 'cand_candidate' not in st.session_state:
     st.session_state.cand_candidate = None
 
-# Step 1: Year Selection
 if st.session_state.cand_year is None:
-    st.markdown("### 📅 Step 1: Choose Election Year")
-    st.markdown("*Select the year of the election*")
+    st.markdown("""
+    <p style="color: #6b7280; margin-bottom: 1.5rem;">Select an election year to analyze candidate performance.</p>
+    """, unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown('<div class="year-box"><h2>2023</h2><p>Assembly Election</p></div>', unsafe_allow_html=True)
-        if st.button("Select 2023", key="cand_2023", use_container_width=True):
+        if st.button("Select 2023", key="cand_2023", use_container_width=True, type="primary"):
             st.session_state.cand_year = 2023
             st.rerun()
     
     with col2:
         st.markdown('<div class="year-box"><h2>2024</h2><p>Assembly Election</p></div>', unsafe_allow_html=True)
-        if st.button("Select 2024", key="cand_2024", use_container_width=True):
+        if st.button("Select 2024", key="cand_2024", use_container_width=True, type="primary"):
             st.session_state.cand_year = 2024
             st.rerun()
     
     with col3:
         st.markdown('<div class="year-box"><h2>2025</h2><p>Assembly Election</p></div>', unsafe_allow_html=True)
-        if st.button("Select 2025", key="cand_2025", use_container_width=True):
+        if st.button("Select 2025", key="cand_2025", use_container_width=True, type="primary"):
             st.session_state.cand_year = 2025
             st.rerun()
 
-# Step 2: District and Constituency Selection
 elif st.session_state.cand_constituency is None:
-    st.markdown(f"### 📍 Step 2: Choose Location for {st.session_state.cand_year}")
-    st.markdown("*First select your district, then your constituency*")
+    render_breadcrumb([f"{st.session_state.cand_year} Election", "Select Location"])
     
     if st.button("← Change Year", key="cand_back_year"):
         st.session_state.cand_year = None
         st.rerun()
     
-    # Get data for selected year
     year_df = df[df['year'] == st.session_state.cand_year]
     
-    # Filter container
     st.markdown("""
-    <div style="background: white; padding: 2rem; border-radius: 20px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin: 2rem 0;
-                border-left: 6px solid #0B3B2A;">
+    <div class="filter-section">
+        <div class="filter-section-title">Select Location</div>
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
     with col1:
-        # District dropdown
         districts = sorted(year_df['district'].unique())
         selected_district = st.selectbox(
-            "Select District (ജില്ല തിരഞ്ഞെടുക്കുക)",
-            districts,
+            "District",
+            options=[""] + list(districts),
             key="cand_district_dropdown",
-            placeholder="Choose a district..."
+            format_func=lambda x: "Choose a district..." if x == "" else x
         )
     
     with col2:
-        # Constituency dropdown
-        if selected_district:
+        if selected_district and selected_district != "":
             constituencies = sorted(year_df[year_df['district'] == selected_district]['constituency'].unique())
             selected_constituency = st.selectbox(
-                "Select Constituency (നിയോജകമണ്ഡലം തിരഞ്ഞെടുക്കുക)",
-                constituencies,
+                "Constituency",
+                options=[""] + list(constituencies),
                 key="cand_constituency_dropdown",
-                placeholder="Choose a constituency..."
+                format_func=lambda x: "Choose a constituency..." if x == "" else x
             )
         else:
             st.selectbox(
-                "Select Constituency",
-                [],
-                disabled=True,
-                placeholder="First select a district"
+                "Constituency",
+                options=["First select a district"],
+                disabled=True
             )
+            selected_constituency = ""
     
     st.markdown("</div>", unsafe_allow_html=True)
     
-    # Next button
-    if selected_district and getattr(st.session_state, 'cand_constituency_dropdown', None):
+    if selected_district and selected_district != "" and selected_constituency and selected_constituency != "":
         col1, col2, col3 = st.columns([1, 1, 1])
         with col2:
-            if st.button("👉 Next: See Candidates", use_container_width=True, type="primary"):
+            if st.button("View Candidates", use_container_width=True, type="primary"):
                 st.session_state.cand_district = selected_district
                 st.session_state.cand_constituency = selected_constituency
                 st.rerun()
 
-# Step 3: Candidate Selection
 elif st.session_state.cand_candidate is None:
-    st.markdown(f"### 👥 Step 3: Choose a Candidate in {st.session_state.cand_constituency}")
-    st.markdown("*Click on any candidate to see their detailed performance*")
+    render_breadcrumb([f"{st.session_state.cand_year} Election", st.session_state.cand_district, st.session_state.cand_constituency, "Select Candidate"])
     
     if st.button("← Change Location", key="cand_back_location"):
         st.session_state.cand_district = None
         st.session_state.cand_constituency = None
         st.rerun()
     
-    # Get candidates for selected constituency
     candidates_df = df[(df['year'] == st.session_state.cand_year) &
                        (df['district'] == st.session_state.cand_district) &
                        (df['constituency'] == st.session_state.cand_constituency)]
     
-    # Show total candidates
-    st.markdown(f"**Total Candidates:** {len(candidates_df)}")
+    st.markdown(f"""
+    <p style="color: #6b7280; margin-bottom: 1rem;">
+        <strong>{len(candidates_df)} candidates</strong> contested in {st.session_state.cand_constituency}
+    </p>
+    """, unsafe_allow_html=True)
     
-    # Create candidate cards in a grid
     cols = st.columns(2)
-    for i, (_, row) in enumerate(candidates_df.iterrows()):
+    for i, (_, row) in enumerate(candidates_df.sort_values('votes', ascending=False).iterrows()):
         with cols[i % 2]:
-            # Different styling for winner vs others
             if row['winner'] == 'Yes':
-                # Winner card - highlighted
                 st.markdown(f"""
-                <div style="background: linear-gradient(135deg, #0B3B2A, #1B6B4A);
-                            padding: 1.5rem; border-radius: 15px;
-                            color: white; margin: 0.5rem 0;
-                            border: 3px solid #FFB81C;">
-                    <div style="font-size: 2rem; text-align: center;">🏆 WINNER</div>
-                    <h3 style="text-align: center; color: #FFB81C; margin: 0.5rem 0;">{row['candidate']}</h3>
-                    <p style="text-align: center; font-size: 1.2rem;">{row['party']}</p>
-                    <p style="text-align: center; font-size: 1.5rem; font-weight: bold;">{row['votes']:,} votes</p>
+                <div class="candidate-card candidate-card-winner">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🏆</div>
+                    <h3 style="margin: 0; color: #d4a03c;">{row['candidate']}</h3>
+                    <p style="margin: 0.25rem 0; opacity: 0.9;">{row['party']}</p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.25rem; font-weight: 600;">{row['votes']:,} votes</p>
                 </div>
                 """, unsafe_allow_html=True)
             else:
-                # Other candidates - simple card
                 st.markdown(f"""
-                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px;
-                            border: 1px solid #ddd; margin: 0.5rem 0;">
-                    <h3 style="text-align: center; color: #0B3B2A;">{row['candidate']}</h3>
-                    <p style="text-align: center; font-size: 1.2rem;">{row['party']}</p>
-                    <p style="text-align: center; font-size: 1.3rem;">{row['votes']:,} votes</p>
+                <div class="candidate-card">
+                    <h3 style="margin: 0; color: #234d3c;">{row['candidate']}</h3>
+                    <p style="margin: 0.25rem 0; color: #6b7280;">{row['party']}</p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.25rem; font-weight: 600; color: #234d3c;">{row['votes']:,} votes</p>
                 </div>
                 """, unsafe_allow_html=True)
             
-            # Select button
-            if st.button(f"View {row['candidate']}'s Details", key=f"select_cand_{row['candidate']}", use_container_width=True):
+            if st.button(f"View Details", key=f"select_cand_{row['candidate']}", use_container_width=True):
                 st.session_state.cand_candidate = row['candidate']
                 st.rerun()
 
-# Step 4: Candidate Performance Display
 else:
     year = st.session_state.cand_year
     district = st.session_state.cand_district
     constituency = st.session_state.cand_constituency
     candidate_name = st.session_state.cand_candidate
     
-    st.markdown(f"### 📊 Performance Report: {candidate_name}")
+    render_breadcrumb([f"{year} Election", district, constituency, candidate_name])
     
-    # Back button
     col1, col2 = st.columns([1, 5])
     with col1:
-        if st.button("← Choose Different Candidate", key="cand_back_candidate"):
+        if st.button("← Back to Candidates", key="cand_back_candidate"):
             st.session_state.cand_candidate = None
             st.rerun()
     
-    # Location info in simple terms
-    st.markdown(f"""
-    <div style="background: #e9ecef; padding: 1rem 2rem; border-radius: 50px; margin: 1rem 0; text-align: center;">
-        <span style="font-size: 1.2rem;">📍 {district} District → {constituency} Constituency</span>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Get candidate data
     candidate_data = df[(df['year'] == year) &
                        (df['district'] == district) &
                        (df['constituency'] == constituency) &
                        (df['candidate'] == candidate_name)].iloc[0]
     
-    # Get all candidates in this constituency
     all_candidates = df[(df['year'] == year) &
                        (df['district'] == district) &
                        (df['constituency'] == constituency)]
     
-    # Calculate basic stats
     is_winner = candidate_data['winner'] == 'Yes'
     total_votes = all_candidates['votes'].sum()
     vote_share = (candidate_data['votes'] / total_votes) * 100
     sorted_candidates = all_candidates.sort_values('votes', ascending=False).reset_index()
     rank = sorted_candidates[sorted_candidates['candidate'] == candidate_name].index[0] + 1
     
-    # Winner/Loser message in simple terms
     if is_winner:
         st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #0B3B2A, #1B6B4A); padding: 2rem; border-radius: 20px;
-                    text-align: center; color: white; border: 4px solid #FFB81C; margin-bottom: 2rem;">
-            <h1 style="font-size: 4rem; margin: 0;">🏆</h1>
-            <h2 style="color: #FFB81C;">{candidate_name} WON the election!</h2>
-            <p style="font-size: 1.5rem;">They received {candidate_data['votes']:,} votes</p>
+        <div class="winner-card">
+            <h2>🏆 WINNER</h2>
+            <div class="candidate-name">{candidate_name}</div>
+            <div class="party">{candidate_data['party']}</div>
+            <div class="votes">{candidate_data['votes']:,} Votes</div>
         </div>
         """, unsafe_allow_html=True)
     else:
@@ -225,92 +191,80 @@ else:
         margin = winner_votes - candidate_data['votes']
         
         st.markdown(f"""
-        <div style="background: #f8f9fa; padding: 2rem; border-radius: 20px;
-                    text-align: center; border: 2px solid #666; margin-bottom: 2rem;">
-            <h2>{candidate_name} did not win</h2>
-            <p style="font-size: 1.3rem;">They received {candidate_data['votes']:,} votes</p>
-            <p style="font-size: 1.2rem;">The winner ({winner_name}) got {winner_votes:,} votes</p>
-            <p style="font-size: 1.2rem;">Margin of defeat: {margin} votes</p>
+        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
+            <h3 style="color: #1f2937; margin: 0 0 0.5rem 0;">{candidate_name}</h3>
+            <p style="color: #6b7280; margin: 0;">{candidate_data['party']}</p>
+            <p style="font-size: 1.5rem; font-weight: 600; color: #234d3c; margin: 0.5rem 0;">{candidate_data['votes']:,} Votes</p>
+            <p style="color: #6b7280; font-size: 0.875rem; margin: 0.5rem 0 0 0;">
+                Lost to {winner_name} by <strong>{margin:,}</strong> votes
+            </p>
         </div>
         """, unsafe_allow_html=True)
     
-    # Simple stats in columns
-    st.markdown("### Quick Summary")
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown(f"""
-        <div style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            <div style="font-size: 2rem;">📊</div>
-            <div style="font-size: 1.1rem; color: #666;">Position</div>
-            <div style="font-size: 2rem; font-weight: bold; color: #0B3B2A;">#{rank}</div>
-            <div>out of {len(all_candidates)} candidates</div>
+        st.markdown(f'''
+        <div class="stat-box">
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">Position</div>
+            <div class="stat-value">#{rank}</div>
+            <div class="stat-sublabel">out of {len(all_candidates)} candidates</div>
         </div>
-        """, unsafe_allow_html=True)
+        ''', unsafe_allow_html=True)
     
     with col2:
-        st.markdown(f"""
-        <div style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            <div style="font-size: 2rem;">🗳️</div>
-            <div style="font-size: 1.1rem; color: #666;">Vote Share</div>
-            <div style="font-size: 2rem; font-weight: bold; color: #0B3B2A;">{vote_share:.1f}%</div>
-            <div>of total votes</div>
+        st.markdown(f'''
+        <div class="stat-box">
+            <div class="stat-icon">🗳️</div>
+            <div class="stat-label">Vote Share</div>
+            <div class="stat-value">{vote_share:.1f}%</div>
+            <div class="stat-sublabel">of total votes</div>
         </div>
-        """, unsafe_allow_html=True)
+        ''', unsafe_allow_html=True)
     
     with col3:
-        st.markdown(f"""
-        <div style="background: white; padding: 1.5rem; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            <div style="font-size: 2rem;">📋</div>
-            <div style="font-size: 1.1rem; color: #666;">Party</div>
-            <div style="font-size: 1.8rem; font-weight: bold; color: #0B3B2A;">{candidate_data['party']}</div>
+        st.markdown(f'''
+        <div class="stat-box">
+            <div class="stat-icon">🏛️</div>
+            <div class="stat-label">Party</div>
+            <div class="stat-value" style="font-size: 1.25rem;">{candidate_data['party']}</div>
         </div>
-        """, unsafe_allow_html=True)
+        ''', unsafe_allow_html=True)
     
-    # Simple explanation
-    st.markdown("---")
-    st.markdown("### 📊 What do the votes look like?")
-    st.markdown("*This pie chart shows how all candidates performed. The bigger the slice, the more votes they got.*")
+    st.markdown("<div style='height: 1.5rem;'></div>", unsafe_allow_html=True)
     
-    # Only pie chart - no bar graph
     col1, col2 = st.columns([2, 1])
     
     with col1:
-        # Simple pie chart
+        st.markdown("##### Vote Distribution")
         fig_pie = px.pie(
             all_candidates,
             values='votes',
             names='candidate',
-            title=f"Vote Share in {constituency}",
-            color_discrete_sequence=['#0B3B2A', '#1B6B4A', '#4CAF50', '#81C784', '#C8E6C9']
+            color_discrete_sequence=['#234d3c', '#2d6a4f', '#40916c', '#52b788', '#74c69d']
         )
-        # Highlight selected candidate
         fig_pie.update_traces(
             textposition='inside',
             textinfo='percent+label',
-            marker=dict(line=dict(color='#FFB81C', width=3)),
             pull=[0.1 if x == candidate_name else 0 for x in all_candidates['candidate']]
         )
+        fig_pie.update_layout(showlegend=False, margin=dict(t=20, b=20, l=20, r=20))
         st.plotly_chart(fig_pie, use_container_width=True)
     
     with col2:
-        # Simple explanation of the pie chart
         st.markdown("""
-        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px;">
-            <h4 style="color: #0B3B2A;">How to read this chart:</h4>
-            <p>• <b>Bigger slice</b> = More votes</p>
-            <p>• <b>Winner's slice</b> is pulled out slightly</p>
-            <p>• The <b>gold border</b> highlights the candidate you selected</p>
-            <p>• Percentages show share of total votes</p>
+        <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <h4 style="color: #234d3c; margin: 0 0 0.75rem 0; font-size: 0.9rem;">How to read:</h4>
+            <p style="font-size: 0.8rem; color: #4b5563; margin: 0 0 0.5rem 0;">• Bigger slice = More votes</p>
+            <p style="font-size: 0.8rem; color: #4b5563; margin: 0 0 0.5rem 0;">• Selected candidate is highlighted</p>
+            <p style="font-size: 0.8rem; color: #4b5563; margin: 0;">• Percentages show vote share</p>
         </div>
         """, unsafe_allow_html=True)
     
-    # Simple comparison table
     st.markdown("---")
-    st.markdown("### 📋 All Candidates in This Constituency")
-    st.markdown("*Listed from highest votes to lowest*")
+    st.markdown("##### All Candidates Comparison")
     
-    # Simple table with just essential info
     table_data = []
     for _, row in all_candidates.sort_values('votes', ascending=False).iterrows():
         winner_star = "🏆 " if row['winner'] == 'Yes' else ""
@@ -320,21 +274,19 @@ else:
             "Votes": f"{row['votes']:,}"
         })
     
-    st.table(pd.DataFrame(table_data))
+    st.dataframe(pd.DataFrame(table_data), use_container_width=True, hide_index=True)
     
-    # Add a "Fun Fact" based on the data
     st.markdown("---")
-    st.markdown("### 💡 Quick Fact")
     
     if is_winner:
         runner_up = sorted_candidates.iloc[1]['candidate']
         runner_up_votes = sorted_candidates.iloc[1]['votes']
         margin = candidate_data['votes'] - runner_up_votes
-        fact = f"{candidate_name} won by {margin} votes against {runner_up}!"
+        st.success(f"**{candidate_name}** won by **{margin:,}** votes against **{runner_up}**")
     else:
         if rank == 2:
-            fact = f"{candidate_name} was the runner-up! They were very close to winning."
+            st.info(f"**{candidate_name}** was the runner-up in this constituency")
         else:
-            fact = f"{candidate_name} stood at position #{rank} in {constituency}."
-    
-    st.info(f"**{fact}**")
+            st.info(f"**{candidate_name}** secured position **#{rank}** in {constituency}")
+
+render_footer()
