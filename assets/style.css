@@ -1,0 +1,103 @@
+/* Kerala Government Style */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.stApp {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Header Ribbon */
+.kerala-ribbon {
+    background: linear-gradient(90deg, #1B4D3E 0%, #2E7D32 100%);
+    padding: 1.5rem;
+    margin: -1rem -1rem 2rem -1rem;
+    text-align: center;
+    border-bottom: 4px solid #FFD700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.kerala-ribbon h1 {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.kerala-ribbon p {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* Feature Boxes */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+.feature-box {
+    background: white;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-top: 4px solid #1B4D3E;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,100,0,0.15);
+    border-color: #FFD700;
+}
+
+.feature-box h3 {
+    color: #1B4D3E;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #FFD700;
+}
+
+.feature-box p {
+    color: #4A5568;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+/* Kerala-style button */
+.kerala-button {
+    background-color: #1B4D3E;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 0.5rem;
+    border: 1px solid #FFD700;
+}
+
+.kerala-button:hover {
+    background-color: #2E7D32;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,77,64,0.3);
+}
+
+/* Malayalam text support */
+.malayalam {
+    font-family: 'Noto Sans Malayalam', 'Poppins', sans-serif;
+}
