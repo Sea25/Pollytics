@@ -14,7 +14,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<p style="text-align: center; color: #6b7280; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem;">
+<p style="text-align: center; color: #000000; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem; font-family: 'Times New Roman', Times, serif;">
     Explore Our Features
 </p>
 """, unsafe_allow_html=True)
@@ -70,26 +70,26 @@ with col5:
 st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
 
 st.markdown("""
-<div style="background: #f1f5f9; border-radius: 16px; padding: 1.5rem; margin: 2rem 0; border: 1px solid #e2e8f0;">
+<div style="background: #f1f5f9; border-radius: 16px; padding: 1.5rem; margin: 2rem 0; border: 1px solid #e2e8f0; font-family: 'Times New Roman', Times, serif;">
     <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center;">
         <div style="text-align: center; padding: 0.75rem 1.5rem;">
             <div style="font-size: 1.75rem; font-weight: 700; color: #234d3c;">14</div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Districts</div>
+            <div style="font-size: 0.75rem; color: #000000; text-transform: uppercase; letter-spacing: 1px;">Districts</div>
         </div>
         <div style="width: 1px; height: 40px; background: #cbd5e1;"></div>
         <div style="text-align: center; padding: 0.75rem 1.5rem;">
             <div style="font-size: 1.75rem; font-weight: 700; color: #234d3c;">140</div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Constituencies</div>
+            <div style="font-size: 0.75rem; color: #000000; text-transform: uppercase; letter-spacing: 1px;">Constituencies</div>
         </div>
         <div style="width: 1px; height: 40px; background: #cbd5e1;"></div>
         <div style="text-align: center; padding: 0.75rem 1.5rem;">
             <div style="font-size: 1.75rem; font-weight: 700; color: #234d3c;">3</div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Election Years</div>
+            <div style="font-size: 0.75rem; color: #000000; text-transform: uppercase; letter-spacing: 1px;">Election Years</div>
         </div>
         <div style="width: 1px; height: 40px; background: #cbd5e1;"></div>
         <div style="text-align: center; padding: 0.75rem 1.5rem;">
             <div style="font-size: 1.75rem; font-weight: 700; color: #234d3c;">1400+</div>
-            <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Booths Analyzed</div>
+            <div style="font-size: 0.75rem; color: #000000; text-transform: uppercase; letter-spacing: 1px;">Booths Analyzed</div>
         </div>
     </div>
 </div>

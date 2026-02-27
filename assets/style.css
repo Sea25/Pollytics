@@ -7,8 +7,8 @@
     --accent-gold: #d4a03c;
     --accent-gold-light: #e8c068;
     --text-dark: #ffffff;
-    --text-medium: #4b5563;
-    --text-light: #6b7280;
+    --text-medium: #333333;
+    --text-light: #555555;
     --bg-light: #f8fafc; 
     --bg-card: #ffffff;
     --border-light: #e5e7eb;
@@ -82,6 +82,7 @@
 }
 
 .site-header .brand-name {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: white;
@@ -91,6 +92,7 @@
 }
 
 .site-header .brand-tagline {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 0.75rem;
     color: var(--accent-gold-light);
     text-transform: uppercase;
@@ -132,6 +134,7 @@
 }
 
 .hero-title {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 2.75rem;
     font-weight: 700;
     color: white;
@@ -140,6 +143,7 @@
 }
 
 .hero-subtitle {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 1rem;
     color: var(--accent-gold-light);
     text-transform: uppercase;
@@ -156,6 +160,7 @@
 }
 
 .hero-description {
+    font-family: 'Times New Roman', Times, serif;
     font-size: 1rem;
     color: rgba(255,255,255,0.85);
     max-width: 600px;
@@ -216,13 +221,13 @@
 .feature-card h3 {
     font-size: 1.15rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #000000;
     margin: 0 0 0.5rem 0;
 }
 
 .feature-card p {
     font-size: 0.875rem;
-    color: var(--text-medium);
+    color: #000000;
     line-height: 1.6;
     margin: 0;
 }
@@ -274,14 +279,14 @@
 .feature-box h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #000000;
     margin: 0 0 0.75rem 0;
     text-align: center;
 }
 
 .feature-box p {
     font-size: 0.85rem;
-    color: var(--text-medium);
+    color: #000000;
     line-height: 1.6;
     margin: 0;
     text-align: center;
@@ -336,7 +341,7 @@
 
 .year-box p {
     font-size: 0.85rem;
-    color: var(--text-medium);
+    color: #000000;
     margin: 0.5rem 0 0 0;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -357,7 +362,7 @@
 .filter-section-title {
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--text-light);
+    color: #000000;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 0 0 1rem 0;
@@ -394,7 +399,7 @@
 .stSelectbox label {
     font-size: 0.875rem !important;
     font-weight: 500 !important;
-    color: var(--text-dark) !important;
+    color: #000000 !important;
     margin-bottom: 0.5rem !important;
 }
 
@@ -413,7 +418,7 @@
    BUTTONS
    ======================================== */
 .stButton > button {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: 'Times New Roman', Times, serif !important;
     font-weight: 500 !important;
     font-size: 0.875rem !important;
     border-radius: var(--radius-md) !important;
@@ -436,7 +441,7 @@
 .stButton > button[kind="secondary"],
 .stButton > button:not([kind="primary"]) {
     background: var(--bg-card) !important;
-    color: var(--text-dark) !important;
+    color: #000000 !important;
     border: 1px solid var(--border-light) !important;
 }
 
@@ -521,7 +526,7 @@
 .metric-card .label {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--text-light);
+    color: #000000;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 0.5rem;
@@ -544,7 +549,7 @@
 [data-testid="stMetricLabel"] {
     font-size: 0.8rem !important;
     font-weight: 500 !important;
-    color: var(--text-medium) !important;
+    color: #000000 !important;
 }
 
 /* ========================================
@@ -564,7 +569,7 @@
 }
 
 .breadcrumb .separator {
-    color: var(--text-light);
+    color: #000000;
 }
 
 .breadcrumb .current {
@@ -600,7 +605,7 @@
     border: none !important;
     padding: 0.75rem 1.25rem !important;
     font-weight: 500 !important;
-    color: var(--text-medium) !important;
+    color: #000000 !important;
     border-bottom: 2px solid transparent !important;
     margin-bottom: -2px !important;
 }
@@ -619,7 +624,7 @@
    ======================================== */
 .streamlit-expanderHeader {
     font-weight: 500 !important;
-    color: var(--text-dark) !important;
+    color: #000000 !important;
     background: var(--bg-card) !important;
     border-radius: var(--radius-md) !important;
 }
@@ -639,7 +644,7 @@
 .section-header h2, .section-header h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #000000;
     margin: 0;
 }
 
@@ -653,7 +658,7 @@
 .page-title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #000000;
     margin: 0 0 0.25rem 0;
     display: flex;
     align-items: center;
@@ -662,7 +667,7 @@
 
 .page-subtitle {
     font-size: 0.875rem;
-    color: var(--text-medium);
+    color: #000000;
     margin: 0;
 }
 
@@ -763,7 +768,7 @@
 
 .comparison-card .constituency {
     font-weight: 600;
-    color: var(--text-dark);
+    color: #000000;
     margin-bottom: 0.25rem;
 }
 
@@ -887,7 +892,7 @@ header {visibility: hidden;}
 
 .stat-box .stat-label {
     font-size: 0.75rem;
-    color: var(--text-light);
+    color: #000000;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -901,5 +906,5 @@ header {visibility: hidden;}
 
 .stat-box .stat-sublabel {
     font-size: 0.8rem;
-    color: var(--text-medium);
+    color: #000000;
 }
