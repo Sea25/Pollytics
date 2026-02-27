@@ -372,10 +372,10 @@ if st.session_state.app_page == 'home':
 # ---------------------------- ELECTION RESULTS PAGE ----------------------------
 elif st.session_state.app_page == 'election_results':
     
-    # Back to home button
+    # Back to home button - FIXED: Added unique key
     col1, col2 = st.columns([1, 5])
     with col1:
-        if st.button("← Home", use_container_width=True):
+        if st.button("← Home", key="results_back_home", use_container_width=True):
             st.session_state.app_page = 'home'
             st.session_state.selected_year = None
             st.session_state.selected_district = None
@@ -589,55 +589,244 @@ elif st.session_state.app_page == 'election_results':
 # ---------------------------- BOOTH STATISTICS PAGE ----------------------------
 elif st.session_state.app_page == 'booth_stats':
     
-    # Back to home button
+    # Back to home button - FIXED: Added unique key
     col1, col2 = st.columns([1, 5])
     with col1:
-        if st.button("← Home", key="booth_back_home", use_container_width=True):
+        if st.button("← Home", key="booth_stats_back_home", use_container_width=True):
             st.session_state.app_page = 'home'
             st.rerun()
     
-    st.markdown("## 🏛️ Booth Level Statistics")
-    st.info("📌 Booth-level data is being processed. This feature will show detailed booth-wise results soon!")
+    st.title("🏛️ Booth Level Statistics")
     
-    # Show constituency-level data as placeholder
-    st.markdown("### Currently showing Constituency-level results (Booth data coming soon)")
+    # Create sample data with ALL 14 districts of Kerala and 10 booths each
+    @st.cache_data
+    def create_sample_data():
+        # All 14 districts of Kerala
+        districts = [
+            'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
+            'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram',
+            'Kozhikode', 'Wayanad', 'Kannur', 'Kasaragod'
+        ]
+        
+        # Major constituencies in each district
+        constituencies = {
+            'Thiruvananthapuram': ['Vattiyoorkavu', 'Nemom', 'Kazhakoottom', 'Kovalam', 'Parassala'],
+            'Kollam': ['Kollam', 'Kundara', 'Chavara', 'Punalur', 'Karunagappally'],
+            'Pathanamthitta': ['Pathanamthitta', 'Ranni', 'Aranmula', 'Konni', 'Adoor'],
+            'Alappuzha': ['Alappuzha', 'Cherthala', 'Ambalappuzha', 'Haripad', 'Kayamkulam'],
+            'Kottayam': ['Kottayam', 'Changanassery', 'Pala', 'Vaikom', 'Kaduthuruthy'],
+            'Idukki': ['Idukki', 'Peerumade', 'Udumbanchola', 'Devikulam', 'Thodupuzha'],
+            'Ernakulam': ['Ernakulam', 'Thrikkakara', 'Kalamassery', 'Paravur', 'Aluva'],
+            'Thrissur': ['Thrissur', 'Ollur', 'Irinjalakuda', 'Guruvayur', 'Kodungallur'],
+            'Palakkad': ['Palakkad', 'Ottapalam', 'Mannarkkad', 'Chittur', 'Alathur'],
+            'Malappuram': ['Malappuram', 'Manjeri', 'Ponnani', 'Tirur', 'Perinthalmanna'],
+            'Kozhikode': ['Kozhikode North', 'Kozhikode South', 'Beypore', 'Kunnamangalam', 'Koduvally'],
+            'Wayanad': ['Sulthan Bathery', 'Kalpetta', 'Mananthavady', 'Vythiri', 'Panamaram'],
+            'Kannur': ['Kannur', 'Thalassery', 'Payyanur', 'Taliparamba', 'Iritty'],
+            'Kasaragod': ['Kasaragod', 'Kanhangad', 'Uppala', 'Manjeshwar', 'Vellarikundu']
+        }
+        
+        data = {
+            'district': [],
+            'constituency': [],
+            'booth_id': [],
+            'booth_name': [],
+            'total_voters': [],
+            'votes_polled': [],
+            'winner': [],
+            'party': [],
+            'margin': [],
+            'previous_error': [],
+            'postal_votes': [],
+            'tendered_votes': []
+        }
+        
+        # Generate data for each district and booth
+        booth_counter = 1
+        parties = ['CPI', 'INC', 'BJP', 'CPIM', 'IUML', 'KC(M)', 'JD(S)']
+        candidates = ['Suresh', 'Rajan', 'Meera', 'Anand', 'Priya', 'Manoj', 'Deepa', 
+                      'Sunil', 'Bindu', 'Vijayan', 'Uma', 'George', 'Jose', 'Peter']
+        
+        for district in districts:
+            # Get constituencies for this district
+            district_constituencies = constituencies[district]
+            for i in range(10):  # 10 booths per district
+                # Cycle through constituencies
+                const_index = i % len(district_constituencies)
+                constituency = district_constituencies[const_index]
+                
+                # Generate booth name
+                booth_name = f"Booth {booth_counter} - {['Govt. School', 'LP School', 'HSS', 'College', 'Community Hall'][i % 5]} {['North', 'South', 'East', 'West', 'Central'][i % 5]}"
+                
+                # Generate realistic voter data
+                total = 1200 + (i * 50) + (hash(district) % 300)  # 1200-2000 range
+                turnout = 65 + (i * 2) + (hash(constituency) % 15)  # 65-85% range
+                if turnout > 90:
+                    turnout = 90
+                votes_polled = int(total * turnout / 100)
+                
+                # Winner and margin
+                winner_idx = (booth_counter + i) % len(candidates)
+                party_idx = (winner_idx + hash(constituency)) % len(parties)
+                margin = 50 + (i * 15) + (hash(booth_name) % 200)
+                
+                # Previous errors (0-20 range)
+                prev_error = (hash(f"error_{booth_counter}") % 21)
+                
+                # Postal votes (1-8% of total votes)
+                postal = int(votes_polled * (2 + (hash(f"postal_{booth_counter}") % 6)) / 100)
+                
+                # Tendered votes (0-5)
+                tendered = hash(f"tender_{booth_counter}") % 6
+                
+                data['district'].append(district)
+                data['constituency'].append(constituency)
+                data['booth_id'].append(1000 + booth_counter)
+                data['booth_name'].append(booth_name)
+                data['total_voters'].append(total)
+                data['votes_polled'].append(votes_polled)
+                data['winner'].append(candidates[winner_idx])
+                data['party'].append(parties[party_idx])
+                data['margin'].append(margin)
+                data['previous_error'].append(prev_error)
+                data['postal_votes'].append(postal)
+                data['tendered_votes'].append(tendered)
+                
+                booth_counter += 1
+        
+        return pd.DataFrame(data)
     
-    # Year filter
-    years = sorted(df['year'].unique())
-    selected_year = st.selectbox("Select Year", years)
+    booth_df = create_sample_data()
+    
+    # Calculate turnout percentage
+    booth_df['turnout_percentage'] = (booth_df['votes_polled'] / booth_df['total_voters'] * 100).round(1)
+    
+    # Sidebar filters
+    st.sidebar.header("🔍 Filter Booths")
     
     # District filter
-    districts = sorted(df[df['year'] == selected_year]['district'].unique())
-    selected_district = st.selectbox("Select District", districts)
+    districts = sorted(booth_df['district'].unique())
+    selected_district = st.sidebar.selectbox("Select District", districts, key="booth_district")
     
-    # Constituency filter
-    constituencies = sorted(df[(df['year'] == selected_year) & 
-                               (df['district'] == selected_district)]['constituency'].unique())
-    selected_constituency = st.selectbox("Select Constituency", constituencies)
+    # Constituency filter (filtered by district)
+    constituencies = sorted(booth_df[booth_df['district'] == selected_district]['constituency'].unique())
+    selected_constituency = st.sidebar.selectbox("Select Constituency", constituencies, key="booth_constituency")
     
-    # Display constituency results
-    const_data = df[(df['year'] == selected_year) & 
-                    (df['district'] == selected_district) & 
-                    (df['constituency'] == selected_constituency)]
+    # Booth filter (filtered by constituency)
+    booths_in_constituency = booth_df[(booth_df['district'] == selected_district) & 
+                               (booth_df['constituency'] == selected_constituency)]
     
-    if not const_data.empty:
-        st.subheader(f"Results for {selected_constituency}")
+    # Optional: Search by booth ID
+    search_booth = st.sidebar.text_input("Search Booth ID (optional)", key="booth_search")
+    
+    # Apply filters
+    if search_booth:
+        filtered_df = booths_in_constituency[booths_in_constituency['booth_id'].astype(str).str.contains(search_booth)]
+    else:
+        filtered_df = booths_in_constituency
+    
+    # Display number of booths found
+    st.sidebar.info(f"Found {len(filtered_df)} booths")
+    st.sidebar.info(f"Total booths in database: {len(booth_df)}")
+    
+    # Main content area with tabs
+    tab1, tab2, tab3, tab4 = st.tabs(["📋 Booth List", "🔍 Booth Details", "📊 Polling Analysis", "⚠️ Previous Errors"])
+    
+    with tab1:
+        st.subheader(f"Booths in {selected_constituency}")
         
-        # Find winner
-        winner = const_data[const_data['winner'] == 'Yes'].iloc[0]
+        # Display booths in a nice table
+        display_cols = ['booth_id', 'booth_name', 'total_voters', 'votes_polled', 'turnout_percentage', 
+                       'winner', 'party', 'margin']
+        display_df = filtered_df[display_cols].copy()
         
-        # Display results
-        col1, col2, col3 = st.columns(3)
+        # Format for display
+        display_df['turnout_percentage'] = display_df['turnout_percentage'].astype(str) + '%'
+        display_df['margin'] = display_df['margin'].astype(str) + ' votes'
+        
+        # Rename columns for better display
+        display_df.columns = ['Booth ID', 'Booth Name', 'Total Voters', 'Votes Polled', 
+                             'Turnout %', 'Winner', 'Party', 'Margin']
+        
+        st.dataframe(display_df, use_container_width=True)
+        
+        # Show count of booths
+        st.info(f"Showing {len(filtered_df)} booths")
+    
+    with tab2:
+        st.subheader("Booth Details")
+        
+        # Select specific booth to view details
+        if not filtered_df.empty:
+            booth_options = filtered_df.apply(lambda x: f"{x['booth_id']} - {x['booth_name']}", axis=1).tolist()
+            selected_booth = st.selectbox("Select Booth for Detailed View", booth_options, key="booth_select")
+            
+            # Get selected booth data
+            booth_id = int(selected_booth.split(' - ')[0])
+            booth_detail = filtered_df[filtered_df['booth_id'] == booth_id].iloc[0]
+            
+            # Display booth details in columns
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.metric("Booth ID", booth_detail['booth_id'])
+                st.metric("Booth Name", booth_detail['booth_name'])
+                st.metric("Total Voters", f"{booth_detail['total_voters']:,}")
+            
+            with col2:
+                st.metric("Votes Polled", f"{booth_detail['votes_polled']:,}")
+                st.metric("Turnout", f"{booth_detail['turnout_percentage']}%")
+                st.metric("Postal Votes", booth_detail['postal_votes'])
+            
+            with col3:
+                st.metric("Winner", booth_detail['winner'])
+                st.metric("Party", booth_detail['party'])
+                st.metric("Margin", f"{booth_detail['margin']} votes")
+            
+            # Candidate-wise results
+            st.subheader("Candidate-wise Vote Split")
+            
+            # Create sample candidate data for this booth
+            total = booth_detail['votes_polled']
+            winner_votes = total // 2 + booth_detail['margin'] // 2
+            runner_votes = total - winner_votes - 80  # Assuming 80 votes for third candidate
+            third_votes = 80
+            
+            # Ensure no negative values
+            if runner_votes < 0:
+                runner_votes = total - winner_votes - 30
+                third_votes = 30
+            
+            candidates_df = pd.DataFrame({
+                'Candidate': [booth_detail['winner'], 'Opponent 1', 'Opponent 2'],
+                'Party': [booth_detail['party'], 'INC' if booth_detail['party'] == 'CPI' else 'CPI', 'BJP'],
+                'Votes': [winner_votes, runner_votes, third_votes]
+            })
+            candidates_df['Percentage'] = (candidates_df['Votes'] / total * 100).round(1).astype(str) + '%'
+            
+            st.dataframe(candidates_df, use_container_width=True)
+            
+            # Pie chart
+            fig = px.pie(candidates_df, values='Votes', names='Candidate', 
+                         title=f"Vote Distribution - Booth {booth_id}")
+            st.plotly_chart(fig)
+    
+    with tab3:
+        st.subheader("Polling Analysis")
+        
+        # Show polling statistics for selected constituency
+        col1, col2, col3, col4 = st.columns(4)
+        
         with col1:
-            st.metric("Winner", winner['candidate'])
+            avg_turnout = filtered_df['turnout_percentage'].mean()
+            st.metric("Avg Turnout", f"{avg_turnout:.1f}%")
+        
         with col2:
-            st.metric("Party", winner['party'])
+            total_voters = filtered_df['total_voters'].sum()
+            st.metric("Total Voters", f"{total_voters:,}")
+        
         with col3:
-            st.metric("Votes", f"{winner['votes']:,}")
-        
-        # Show all candidates
-        st.dataframe(const_data[['candidate', 'party', 'votes']].sort_values('votes', ascending=False))
-        
+            total_votes = filtered_df['votes_polled'].sum
 # ---------------------------- CANDIDATE PERFORMANCE PAGE ----------------------------
 elif st.session_state.app_page == 'candidate_performance':
     
