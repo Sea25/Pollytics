@@ -275,7 +275,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Load data from CSV
+# Load data
 @st.cache_data
 def load_data():
     try:
@@ -283,10 +283,21 @@ def load_data():
         return df
     except Exception as e:
         st.error(f"Error loading data: {e}")
-        st.info("Please make sure the file 'data/kerala_election_data.csv' exists in the data folder")
+        st.info("Please make sure the file 'data/kerala_election_data.csv' exists")
         return pd.DataFrame()
 
 df = load_data()
+
+
+# Initialize session state
+if 'app_page' not in st.session_state:
+    st.session_state.app_page = 'home'  # home, election_results, booth_stats, etc.
+if 'selected_year' not in st.session_state:
+    st.session_state.selected_year = None
+if 'selected_district' not in st.session_state:
+    st.session_state.selected_district = None
+if 'selected_constituency' not in st.session_state:
+    st.session_state.selected_constituency = None
 
 # Initialize session state
 if 'app_page' not in st.session_state:
@@ -360,17 +371,7 @@ if st.session_state.app_page == 'home':
             st.session_state.app_page = 'vote_difference'
             st.rerun()
 
-    with col5:
-        st.markdown("""
-        <div class="feature-box">
-            <div class="feature-icon">🗺️</div>
-            <h3>Kerala Election Map</h3>
-            <p>Visualize election results across Kerala districts. See which party won where with our interactive map.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button("View Election Map", key="home_map", use_container_width=True):
-            st.session_state.app_page = 'kerala_map'
-            st.rerun()
+    
 
 # ---------------------------- ELECTION RESULTS PAGE ----------------------------
 elif st.session_state.app_page == 'election_results':
@@ -1333,8 +1334,7 @@ elif st.session_state.app_page == 'vote_difference':
     st.markdown("## 📈 Vote Difference Analysis")
     st.info("This page is under construction. Coming soon!")
 
-# ---------------------------- KERALA MAP PAGE ----------------------------
-elif st.session_state.app_page == 'kerala_map':
+
     
     # Back to home button
     col1, col2 = st.columns([1, 5])
