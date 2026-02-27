@@ -271,7 +271,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Load data
+# Load data from CSV
 @st.cache_data
 def load_data():
     try:
@@ -279,7 +279,7 @@ def load_data():
         return df
     except Exception as e:
         st.error(f"Error loading data: {e}")
-        st.info("Please make sure the file 'data/kerala_election_data.csv' exists")
+        st.info("Please make sure the file 'data/kerala_election_data.csv' exists in the data folder")
         return pd.DataFrame()
 
 df = load_data()
@@ -586,6 +586,58 @@ elif st.session_state.app_page == 'election_results':
         else:
             st.error("No data found for this selection")
 
+# ---------------------------- BOOTH STATISTICS PAGE ----------------------------
+elif st.session_state.app_page == 'booth_stats':
+    
+    # Back to home button
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        if st.button("← Home", key="booth_back_home", use_container_width=True):
+            st.session_state.app_page = 'home'
+            st.rerun()
+    
+    st.markdown("## 🏛️ Booth Level Statistics")
+    st.info("📌 Booth-level data is being processed. This feature will show detailed booth-wise results soon!")
+    
+    # Show constituency-level data as placeholder
+    st.markdown("### Currently showing Constituency-level results (Booth data coming soon)")
+    
+    # Year filter
+    years = sorted(df['year'].unique())
+    selected_year = st.selectbox("Select Year", years)
+    
+    # District filter
+    districts = sorted(df[df['year'] == selected_year]['district'].unique())
+    selected_district = st.selectbox("Select District", districts)
+    
+    # Constituency filter
+    constituencies = sorted(df[(df['year'] == selected_year) & 
+                               (df['district'] == selected_district)]['constituency'].unique())
+    selected_constituency = st.selectbox("Select Constituency", constituencies)
+    
+    # Display constituency results
+    const_data = df[(df['year'] == selected_year) & 
+                    (df['district'] == selected_district) & 
+                    (df['constituency'] == selected_constituency)]
+    
+    if not const_data.empty:
+        st.subheader(f"Results for {selected_constituency}")
+        
+        # Find winner
+        winner = const_data[const_data['winner'] == 'Yes'].iloc[0]
+        
+        # Display results
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Winner", winner['candidate'])
+        with col2:
+            st.metric("Party", winner['party'])
+        with col3:
+            st.metric("Votes", f"{winner['votes']:,}")
+        
+        # Show all candidates
+        st.dataframe(const_data[['candidate', 'party', 'votes']].sort_values('votes', ascending=False))
+        
 # ---------------------------- CANDIDATE PERFORMANCE PAGE ----------------------------
 elif st.session_state.app_page == 'candidate_performance':
     
@@ -936,18 +988,30 @@ elif st.session_state.app_page == 'candidate_performance':
         st.rerun()
     st.info("This page is under construction. Coming soon!")
 
+# ---------------------------- VOTE DIFFERENCE PAGE ----------------------------
 elif st.session_state.app_page == 'vote_difference':
+    
+    # Back to home button
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        if st.button("← Home", key="vote_back_home", use_container_width=True):
+            st.session_state.app_page = 'home'
+            st.rerun()
+    
     st.markdown("## 📈 Vote Difference Analysis")
-    if st.button("← Back to Home"):
-        st.session_state.app_page = 'home'
-        st.rerun()
     st.info("This page is under construction. Coming soon!")
 
+# ---------------------------- REGION FILTERING PAGE ----------------------------
 elif st.session_state.app_page == 'region_filtering':
+    
+    # Back to home button
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        if st.button("← Home", key="region_back_home", use_container_width=True):
+            st.session_state.app_page = 'home'
+            st.rerun()
+    
     st.markdown("## 📍 Region Based Filtering")
-    if st.button("← Back to Home"):
-        st.session_state.app_page = 'home'
-        st.rerun()
     st.info("This page is under construction. Coming soon!")
 
 # Footer (shown on all pages)
@@ -958,4 +1022,3 @@ st.markdown("""
     <p style="font-size: 0.8rem; opacity: 0.8;">Making election data accessible to everyone</p>
 </div>
 """, unsafe_allow_html=True)
-
