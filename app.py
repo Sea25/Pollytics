@@ -304,8 +304,9 @@ if st.session_state.app_page == 'home':
     </div>
     """, unsafe_allow_html=True)
 
-    # Feature boxes
-    col1, col2, col3 = st.columns(3)
+    # Feature boxes - 4 features (removed Region Based Filtering)
+    col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
 
     with col1:
         st.markdown("""
@@ -343,8 +344,6 @@ if st.session_state.app_page == 'home':
             st.session_state.app_page = 'candidate_performance'
             st.rerun()
 
-    col4, col5 = st.columns(2)
-
     with col4:
         st.markdown("""
         <div class="feature-box">
@@ -355,18 +354,6 @@ if st.session_state.app_page == 'home':
         """, unsafe_allow_html=True)
         if st.button("View Vote Differences", key="home_margin", use_container_width=True):
             st.session_state.app_page = 'vote_difference'
-            st.rerun()
-
-    with col5:
-        st.markdown("""
-        <div class="feature-box">
-            <div class="feature-icon">📍</div>
-            <h3>Region Based Filtering</h3>
-            <p>Filter results by district, constituency, or local body for targeted geographical analysis.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button("Filter by Region", key="home_region", use_container_width=True):
-            st.session_state.app_page = 'region_filtering'
             st.rerun()
 
 # ---------------------------- ELECTION RESULTS PAGE ----------------------------
@@ -1001,18 +988,6 @@ elif st.session_state.app_page == 'vote_difference':
     st.markdown("## 📈 Vote Difference Analysis")
     st.info("This page is under construction. Coming soon!")
 
-# ---------------------------- REGION FILTERING PAGE ----------------------------
-elif st.session_state.app_page == 'region_filtering':
-    
-    # Back to home button
-    col1, col2 = st.columns([1, 5])
-    with col1:
-        if st.button("← Home", key="region_back_home", use_container_width=True):
-            st.session_state.app_page = 'home'
-            st.rerun()
-    
-    st.markdown("## 📍 Region Based Filtering")
-    st.info("This page is under construction. Coming soon!")
 
 # Footer (shown on all pages)
 st.markdown("""
