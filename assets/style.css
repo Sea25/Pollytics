@@ -6,7 +6,7 @@
     --primary-light: #2d6a4f;
     --accent-gold: #d4a03c;
     --accent-gold-light: #e8c068;
-    --text-dark: #ffffff;
+    --text-dark: #000000;
     --text-medium: #333333;
     --text-light: #555555;
     --bg-light: #f8fafc; 
@@ -94,7 +94,7 @@
 .site-header .brand-tagline {
     font-family: 'Times New Roman', Times, serif;
     font-size: 0.75rem;
-    color: var(--accent-gold-light);
+    color: rgb(255, 255, 255);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin: 0;

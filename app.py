@@ -9,7 +9,7 @@ st.markdown("""
         <h1 class="hero-title">POLLYTICS</h1>
         <p class="hero-subtitle">Kerala Election Analysis Portal</p>
         <p class="hero-malayalam">കേരള തിരഞ്ഞെടുപ്പ് വിശകലന പോർട്ടൽ</p>
-
+        
 </div>
 """, unsafe_allow_html=True)
 
@@ -54,9 +54,9 @@ with col3:
     if st.button("View Candidates", key="home_candidate", use_container_width=True, type="primary"):
         st.switch_page("pages/3_Candidate_Performance.py")
 
-col4, col5, col6 = st.columns([1, 1, 1])
+col4, col5 = st.columns(2)
 
-with col5:
+with col4:
     st.markdown("""
     <div class="feature-box">
         <div class="feature-icon">📈</div>
@@ -66,6 +66,17 @@ with col5:
     """, unsafe_allow_html=True)
     if st.button("Vote Difference", key="home_margin", use_container_width=True, type="primary"):
         st.switch_page("pages/4_Vote_Difference.py")
+
+with col5:
+    st.markdown("""
+    <div class="feature-box">
+        <div class="feature-icon">🤖</div>
+        <h3>Election Chatbot</h3>
+        <p>Ask questions about election results in natural language. Get instant answers about winners, margins, and more!</p>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("Ask Chatbot", key="home_chatbot", use_container_width=True, type="primary"):
+        st.switch_page("pages/5_Election_Chatbot.py")
 
 st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
 
