@@ -1,3 +1,7 @@
+import folium
+from streamlit_folium import folium_static
+import json
+import requests
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -304,9 +308,9 @@ if st.session_state.app_page == 'home':
     </div>
     """, unsafe_allow_html=True)
 
-    # Feature boxes - 4 features (removed Region Based Filtering)
-    col1, col2 = st.columns(2)
-    col3, col4 = st.columns(2)
+    # Feature boxes - 5 features (added Kerala Map)
+    col1, col2, col3 = st.columns(3)
+    col4, col5 = st.columns(2)
 
     with col1:
         st.markdown("""
@@ -354,6 +358,18 @@ if st.session_state.app_page == 'home':
         """, unsafe_allow_html=True)
         if st.button("View Vote Differences", key="home_margin", use_container_width=True):
             st.session_state.app_page = 'vote_difference'
+            st.rerun()
+
+    with col5:
+        st.markdown("""
+        <div class="feature-box">
+            <div class="feature-icon">🗺️</div>
+            <h3>Kerala Election Map</h3>
+            <p>Visualize election results across Kerala districts. See which party won where with our interactive map.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("View Election Map", key="home_map", use_container_width=True):
+            st.session_state.app_page = 'kerala_map'
             st.rerun()
 
 # ---------------------------- ELECTION RESULTS PAGE ----------------------------
@@ -1176,6 +1192,94 @@ elif st.session_state.app_page == 'vote_difference':
     
     st.markdown("## 📈 Vote Difference Analysis")
     st.info("This page is under construction. Coming soon!")
+
+# ---------------------------- KERALA MAP PAGE ----------------------------
+elif st.session_state.app_page == 'kerala_map':
+    
+    # Back to home button
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        if st.button("← Home", key="map_back_home", use_container_width=True):
+            st.session_state.app_page = 'home'
+            st.rerun()
+    
+    st.markdown("## 🗺️ Kerala Election Map")
+    st.markdown("##### *Click on any district to see who won*")
+    
+    # Year selector
+    year = st.selectbox("Select Election Year", [2023, 2024, 2025], key="map_year")
+    
+    # Get data for selected year
+    year_df = df[df['year'] == year]
+    
+    # Get winners by district
+    district_winners = []
+    for district in year_df['district'].unique():
+        district_data = year_df[year_df['district'] == district]
+        # Find the party that won most constituencies in this district
+        winners = district_data[district_data['winner'] == 'Yes']
+        if not winners.empty:
+            top_party = winners['party'].value_counts().index[0]
+            winner_name = winners[winners['party'] == top_party].iloc[0]['candidate']
+        else:
+            top_party = "Unknown"
+            winner_name = "Unknown"
+        
+        total_votes = district_data['votes'].sum()
+        
+        district_winners.append({
+            'district': district,
+            'winning_party': top_party,
+            'winner_name': winner_name,
+            'total_votes': total_votes,
+            'constituencies': len(district_data['constituency'].unique())
+        })
+    
+    winner_df = pd.DataFrame(district_winners)
+    
+    # Color mapping for parties
+    party_colors = {
+        'CPI': '#0B3B2A',      # Dark green
+        'INC': '#0000FF',       # Blue
+        'BJP': '#FF9933',       # Saffron
+        'IUML': '#90EE90',      # Light green
+        'Unknown': '#808080'    # Grey
+    }
+    
+    # Display districts in a grid format (since we can't use folium without installation)
+    st.markdown("### 📍 District-wise Results")
+    
+    # Create a 3-column grid for districts
+    cols = st.columns(3)
+    for i, (_, row) in enumerate(winner_df.iterrows()):
+        with cols[i % 3]:
+            party_color = party_colors.get(row['winning_party'], '#808080')
+            st.markdown(f"""
+            <div style="background: white; padding: 1rem; border-radius: 10px; 
+                        margin: 0.5rem 0; border-left: 6px solid {party_color};
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="margin: 0; color: #0B3B2A;">{row['district']}</h4>
+                <p style="margin: 0.3rem 0; font-size: 1.1rem;">
+                    <span style="color: {party_color}; font-weight: bold;">{row['winning_party']}</span>
+                </p>
+                <p style="margin: 0.2rem 0; font-size: 0.9rem;">Winner: {row['winner_name']}</p>
+                <p style="margin: 0; font-size: 0.9rem;">Votes: {row['total_votes']:,}</p>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # Show summary chart
+    st.markdown("---")
+    st.subheader("📊 Party-wise Performance")
+    
+    party_counts = winner_df['winning_party'].value_counts().reset_index()
+    party_counts.columns = ['Party', 'Number of Districts']
+    
+    # Simple bar chart
+    st.bar_chart(party_counts.set_index('Party'))
+    
+    # Data table
+    with st.expander("📋 View Detailed District Data"):
+        st.dataframe(winner_df, use_container_width=True)
 
 
 # Footer (shown on all pages)
