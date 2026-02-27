@@ -1,9 +1,0 @@
-constituency,candidate,party,votes,booth_id,winner
-Trivandrum,Suresh,CPI,4500,101,Yes
-Trivandrum,Rajan,INC,4200,101,No
-Trivandrum,Suresh,CPI,4800,102,Yes
-Trivandrum,Rajan,INC,4100,102,No
-Kochi,Meera,CPI,5200,201,Yes
-Kochi,Anand,INC,4900,201,No
-Kochi,Meera,CPI,5100,202,Yes
-Kochi,Anand,INC,5000,202,No
