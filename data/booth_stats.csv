@@ -1,4 +1,0 @@
-booth_id,constituency,district,total_votes,winner_name,winner_party,winner_votes,runner_up_name,runner_up_votes,margin,turnout_percentage
-B101,Thiruvananthapuram,Thiruvananthapuram,856,Suresh,CPI,450,Rajan,INC,406,50,68.5
-B102,Thiruvananthapuram,Thiruvananthapuram,892,Suresh,CPI,480,Rajan,INC,412,68,71.2
-B103,Vattiyoorkavu,Thiruvananthapuram,723,Krishnan,CPI,389,Sudheer,INC,334,55,64.8

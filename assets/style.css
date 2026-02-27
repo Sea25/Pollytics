@@ -1,103 +1,95 @@
-/* Kerala Government Style */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Malayalam:wght@400;500;600;700&display=swap');
 
 .stApp {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f7fa;
 }
 
-/* Header Ribbon */
+/* Kerala Style Header */
 .kerala-ribbon {
-    background: linear-gradient(90deg, #1B4D3E 0%, #2E7D32 100%);
-    padding: 1.5rem;
-    margin: -1rem -1rem 2rem -1rem;
+    background: linear-gradient(135deg, #0B3B2A 0%, #1B6B4A 100%);
+    padding: 2rem 2rem 2.5rem 2rem;
+    margin: -5rem -4rem 2rem -4rem;
     text-align: center;
-    border-bottom: 4px solid #FFD700;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-bottom: 4px solid #FFB81C;
+    box-shadow: 0 8px 20px rgba(0,40,20,0.2);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
 }
 
 .kerala-ribbon h1 {
     color: white;
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 700;
     margin: 0;
     letter-spacing: 2px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
 }
 
-.kerala-ribbon p {
-    color: #FFD700;
-    font-size: 1.2rem;
+.kerala-ribbon .subhead {
+    color: #FFB81C;
+    font-size: 1.3rem;
     margin: 0.5rem 0 0 0;
     font-weight: 500;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+}
+
+.kerala-ribbon .malayalam {
+    font-family: 'Noto Serif Malayalam', serif;
+    color: rgba(255,255,255,0.9);
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
 }
 
 /* Feature Boxes */
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem;
-    margin-top: 2rem;
-}
-
 .feature-box {
     background: white;
-    border: 1px solid #E0E0E0;
-    border-radius: 8px;
-    padding: 1.5rem;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
     text-align: center;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    border-top: 4px solid #1B4D3E;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.1);
+    border-top: 6px solid #0B3B2A;
+    height: 100%;
 }
 
 .feature-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0,100,0,0.15);
-    border-color: #FFD700;
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -8px rgba(11,59,42,0.3);
+    border-color: #FFB81C;
 }
 
 .feature-box h3 {
-    color: #1B4D3E;
-    font-size: 1.3rem;
+    color: #0B3B2A;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin: 0 0 1rem 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #FFD700;
+    margin: 1rem 0 0.5rem 0;
 }
 
 .feature-box p {
-    color: #4A5568;
-    font-size: 0.9rem;
+    color: #666;
+    font-size: 0.95rem;
     line-height: 1.5;
-    margin: 1rem 0;
+    margin: 0;
 }
 
-/* Kerala-style button */
-.kerala-button {
-    background-color: #1B4D3E;
+/* Footer */
+.kerala-footer {
+    background: linear-gradient(90deg, #0B3B2A 0%, #1B6B4A 100%);
+    padding: 1.5rem;
+    margin-top: 4rem;
+    text-align: center;
     color: white;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 25px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 0.5rem;
-    border: 1px solid #FFD700;
+    border-radius: 12px 12px 0 0;
 }
 
-.kerala-button:hover {
-    background-color: #2E7D32;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,77,64,0.3);
+.kerala-footer p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
 }
 
-/* Malayalam text support */
-.malayalam {
-    font-family: 'Noto Sans Malayalam', 'Poppins', sans-serif;
+.kerala-footer .highlight {
+    color: #FFB81C;
+    font-weight: 600;
 }
