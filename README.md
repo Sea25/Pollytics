@@ -85,15 +85,12 @@ List the key features of your project:
 
 
   <img src="assets/S4.jpeg" alt="HOME PAGE" width="100%">
-(Add screenshot 1 here with proper name)
 *home page showing all the features of the web*
 
 <img src="assets/S1.jpeg" alt="ELECTION RESULT" width="100%">
-(Add screenshot 2 here with proper name)
 *page showing election result*
 
 <img src="assets/S3.jpeg" alt="CHATBOT" width="100%">
-(Add screenshot 3 here with proper name)
 *page showing chatbot*
 
 
@@ -124,7 +121,7 @@ List the key features of your project:
 #### Build Photos
 
 <img src="assets/team.jpg" alt="TEAM" width="100%">
-(Add photo of your team here)
+
 
 ![Components](Add photo of your components here)
 *List out all components shown*
@@ -132,8 +129,9 @@ List the key features of your project:
 ![Build](Add photos of build process here)
 *Explain the build steps*
 
-![Final](Add photo of final product here)
-*Explain the final build*
+<img src="assets/S4.jpeg" alt="HOME PAGE" width="100%">
+(Add photo of final product here)
+*home page showing all the feature including election result,comparison booth statistics and chatbot*
 
 ---
 
@@ -369,7 +367,7 @@ python script.py -v --format json data.json
 ### Video
 [https://drive.google.com/drive/folders/1ZQHbKMPyCfffUfHwn6CQEmsJqhv8zHIj?usp=sharing]
 
-*Explain what the video demonstrates - key features, user flow, technical highlights*
+*explains the working by navigating through all the features,showing results to chatbot answering*
 
 ### Additional Demos
 [Add any extra demo materials/links - Live site, APK download, online demo, etc.]
