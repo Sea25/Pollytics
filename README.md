@@ -83,7 +83,7 @@ List the key features of your project:
 
 #### Screenshots (Add at least 3)
 
-<p align="center">
+
   <img src="assets/S4.jpeg" alt="HOME PAGE" width="100%">
 (Add screenshot 1 here with proper name)
 *home page showing all the features of the web*
@@ -95,7 +95,7 @@ List the key features of your project:
 <img src="assets/S3.jpeg" alt="CHATBOT" width="100%">
 (Add screenshot 3 here with proper name)
 *page showing chatbot*
-</p>
+
 
 #### Diagrams
 
