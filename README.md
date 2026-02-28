@@ -99,12 +99,12 @@ List the key features of your project:
 **System Architecture:**
 
 ![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
+*The POLLYTICS system follows a simple architecture where users interact with a Streamlit-based web interface. The frontend collects user input such as election year or constituency and sends it to the Python backend. The backend processes election datasets using Pandas for filtering, aggregation, and analysis. The processed results are then displayed through interactive charts and visualizations. Data is stored in CSV files, making the system lightweight and efficient. The overall flow is: User → Streamlit Interface → Python Backend → Data Processing → Visualization Output.*
 
 **Application Workflow:**
 
 ![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
+*The application follows a structured workflow to provide election insights. First, the user opens the POLLYTICS web portal and selects the required election data or analysis type. The system retrieves the relevant dataset and processes it using Python. The processed data is analyzed to identify voting trends, candidate performance, and election results. The results are displayed through interactive dashboards and visualizations, and users can further explore data or interact with the chatbot for additional information.*
 
 ---
 
