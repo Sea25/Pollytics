@@ -118,7 +118,7 @@ List the key features of your project:
 
 #### Build Photos
 
-![assets/team.jpeg](Add photo of your team here)
+![./team.jpeg](Add photo of your team here)
 
 ![Components](Add photo of your components here)
 *List out all components shown*
