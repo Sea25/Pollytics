@@ -83,14 +83,19 @@ List the key features of your project:
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<p align="center">
+  <img src="assets/S4.jpeg" alt="HOME PAGE" width="100%">
+(Add screenshot 1 here with proper name)
+*home page showing all the features of the web*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img src="assets/S1.jpeg" alt="ELECTION RESULT" width="100%">
+(Add screenshot 2 here with proper name)
+*page showing election result*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img src="assets/S3.jpeg" alt="CHATBOT" width="100%">
+(Add screenshot 3 here with proper name)
+*page showing chatbot*
+</p>
 
 #### Diagrams
 
@@ -118,8 +123,8 @@ List the key features of your project:
 
 #### Build Photos
 
-!<img src="assets/team.jpg" alt="Project Banner" width="100%">
-</p>(Add photo of your team here)
+<img src="assets/team.jpg" alt="TEAM" width="100%">
+(Add photo of your team here)
 
 ![Components](Add photo of your components here)
 *List out all components shown*
@@ -362,7 +367,7 @@ python script.py -v --format json data.json
 ## Project Demo
 
 ### Video
-[Add your demo video link here - YouTube, Google Drive, etc.]
+[https://drive.google.com/drive/folders/1ZQHbKMPyCfffUfHwn6CQEmsJqhv8zHIj?usp=sharing]
 
 *Explain what the video demonstrates - key features, user flow, technical highlights*
 
