@@ -13,7 +13,7 @@
 - Member 2: [Siva Nanda C.P] - [CUSAT]
 
 ### Hosted Project Link
-[mention your project hosted link here]
+[https://pollytics-ezzwpsby9lapeqyx9kaw6x.streamlit.app/]
 
 ### Project Description
 [POLLYTICS is a comprehensive Kerala Election Analytics Portal that transforms complex election data into interactive visualizations, enabling citizens to explore constituency-wise results, booth-level statistics, and voting patterns with ease.]
@@ -32,14 +32,14 @@
 
 **For Software:**
 - Languages used: [Python]
-- Frameworks used: [Streamlite]
+- Frameworks used: [Streamlit]
 - Libraries used: [pandas]
 - Tools used: [VS Code, Git]
 
 **For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
+- Main components: [Nil]
+- Specifications: [Nil]
+- Tools required: [Nil]
 
 ---
 
@@ -59,7 +59,7 @@ List the key features of your project:
 
 #### Installation
 ```bash
-[pip install streamlit pandas numpy plotly,python]
+[pip install streamlit pandas numpy plotly]
 ```
 
 #### Run
@@ -70,10 +70,10 @@ List the key features of your project:
 ### For Hardware:
 
 #### Components Required
-[List all components needed with specifications]
+[Nil]
 
 #### Circuit Setup
-[Explain how to set up the circuit]
+[Nil]
 
 ---
 
@@ -118,7 +118,7 @@ List the key features of your project:
 
 #### Build Photos
 
-![Team](Add photo of your team here)
+![assets/team.jpeg](Add photo of your team here)
 
 ![Components](Add photo of your components here)
 *List out all components shown*
@@ -374,12 +374,12 @@ python script.py -v --format json data.json
 
 If you used AI tools during development, document them here for transparency:
 
-**Tool Used:** [e.g., GitHub Copilot, v0.dev, Cursor, ChatGPT, Claude]
+**Tool Used:** [ChatGPT, DeepSeek]
 
 **Purpose:** [What you used it for]
-- Example: "Generated boilerplate React components"
-- Example: "Debugging assistance for async functions"
-- Example: "Code review and optimization suggestions"
+- ChatGPT: "debugging and documentation assistance"
+- GitHub Copilot: "code suggestions"
+
 
 **Key Prompts Used:**
 - "Create a REST API endpoint for user authentication"
@@ -400,9 +400,8 @@ If you used AI tools during development, document them here for transparency:
 
 ## Team Contributions
 
-- [Name 1]: [Specific contributions - e.g., Frontend development, API integration, etc.]
-- [Name 2]: [Specific contributions - e.g., Backend development, Database design, etc.]
-- [Name 3]: [Specific contributions - e.g., UI/UX design, Testing, Documentation, etc.]
+- [Sona Elizabeth Abraham]: [Frontend development]
+- [Siva Nanda CP]: [Frontend development]
 
 ---
 
