@@ -411,7 +411,7 @@ If you used AI tools during development, document them here for transparency:
 
 ## License
 
-This project is licensed under the [LICENSE_NAME] License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License] License - see the [LICENSE](License) file for details.
 
 **Common License Options:**
 - MIT License (Permissive, widely used)
